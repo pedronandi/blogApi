@@ -1,6 +1,9 @@
 package com.challenge.blogApi.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 @Entity
 public class User {
@@ -10,12 +13,17 @@ public class User {
     private Long id;
 
     @Column(name = "displayName")
+    @NotNull
+    @Size(min = 8)
     private String displayName;
 
     @Column(name = "email", unique = true)
+    @NotNull
     private String email;
 
     @Column(name = "password")
+    @NotNull
+    @Size(min = 6)
     private String password;
 
     @Column(name = "image")
