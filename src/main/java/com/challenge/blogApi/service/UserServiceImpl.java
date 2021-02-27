@@ -3,9 +3,14 @@ package com.challenge.blogApi.service;
 import com.challenge.blogApi.exception.user.UserAlreadyExistsException;
 import com.challenge.blogApi.model.User;
 import com.challenge.blogApi.repository.UserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -34,7 +39,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         if(exists(user))
-            throw  new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException();
 
         return userRepository.save(user);
     }
