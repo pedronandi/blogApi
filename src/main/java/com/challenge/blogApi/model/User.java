@@ -1,9 +1,10 @@
 package com.challenge.blogApi.model;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
@@ -13,17 +14,21 @@ public class User {
     private Long id;
 
     @Column(name = "displayName")
-    @NotNull
-    @Size(min = 8)
+    @NotNull(message = "\"displayName\" is required")
+    @NotBlank(message = "\"displayName\" is required")
+    @Size(min = 8, message = "\"displayName\" length must be at least 8 characters long")
     private String displayName;
 
     @Column(name = "email", unique = true)
-    @NotNull
+    @NotNull(message = "\"email\" is required")
+    @NotBlank(message = "\"email\" is required")
+    @Email(message = "\"email\" must be a valid email")
     private String email;
 
     @Column(name = "password")
-    @NotNull
-    @Size(min = 6)
+    @NotNull(message = "\"password\" is required")
+    @NotBlank(message = "\"password\" is required")
+    @Size(min = 6, max = 6, message = "\"password\" length must be at least 6 characters long")
     private String password;
 
     @Column(name = "image")
@@ -73,5 +78,18 @@ public class User {
 
     public String getImage() {
         return image;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if(object == this)
+            return true;
+
+        if(!(object instanceof User))
+            return false;
+
+        User user = (User) object;
+
+        return email.equals(user.email);
     }
 }
